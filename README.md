@@ -58,7 +58,7 @@ ctx.drawImage(image, 50, 50);
 // Function to handle the key press events
 function onKeyPress(event) {
   // Handle arrow keys
-  switch (e.keyCode) {
+  switch (event.keyCode) {
     case 37:
       alert('left');
       break;
