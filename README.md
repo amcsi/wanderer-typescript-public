@@ -11,13 +11,15 @@ the monsters holding the keys to the next level.
 
 ### 1. Clone the repository to your computer
 
-
 #### How to launch the program
 
 In the cloned repository:
 
 - Run: `npm install` for initializing the modules
-- Run: `npm start` for starting the development server, and the automatic compilation
+
+- Run: `npm start` for starting the development server,
+and the automatic compilation
+
 - Open `localhost:8080` in your browser
 
 We provided an example for some necessary functionalities.
@@ -30,6 +32,7 @@ It contains:
 - you can separate anything anyhow
 
 ```typescript
+
 'use strict';
 
 // Acquire the rendering context
@@ -78,32 +81,47 @@ function onKeyPress(event) {
 document.body.addEventListener('keydown', onKeyPress);
 ```
 
-### 3. Create a GitHub project under your repository for your work and add the [project stories](https://github.com/greenfox-academy/teaching-materials/blob/master/project/wanderer/stories.md).
+### 3. Create a GitHub project
 
-### 4. Form groups and plan your application together.
+-create it under your repository for your work and add the [project stories](https://github.com/greenfox-academy/teaching-materials/blob/master/project/wanderer/stories.md).
 
-Plan your architecture. In your architecture you should consider the following components:
+### 4. Form groups and plan your application together
+
+Plan your architecture. 
+In your architecture you should consider the following components:
 
 - Models
-    - GameObject
-        - Character
-            - Monster
-            - Hero
-            - types
-        - Area
-        - Tile
-            - EmptyTile
-            - NotEmptyTile
+
+  - GameObject
+
+    - Character
+
+      - Monster
+
+        - Hero
+        - types
+
+      - Area
+
+      - Tile
+
+        - EmptyTile
+        - NotEmptyTile
+
 - GameLogic
-    - current hero
-    - current area
+
+  - current hero
+  - current area
+
 - Main
-    - handling events
-    - current game
+
+  - handling events
+  - current game
 
 #### 5. Think about task breakdown in Kanban together
 
-Now that you see the big picture, **go through the stories together** and think about how to break them down into tasks:
+Now that you see the big picture, **go through the stories together** 
+and think about how to break them down into tasks:
 
 - To classes
 - To methods
