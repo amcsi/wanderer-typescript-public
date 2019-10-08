@@ -39,11 +39,13 @@ It contains:
 const canvas = document.querySelector('.main-canvas') as HTMLCanvasElement;
 const ctx = canvas.getContext('2d');
 
-// Draw image
+// This function runs after the images are loaded
+window.onload = () => {
+  // Drawing a floor tile
+  const image = document.getElementById('floor') as HTMLImageElement;
+  ctx.drawImage(image, 50, 50);
 
-// Drawing a floor tile
-const image = document.getElementById('floor') as HTMLImageElement;
-ctx.drawImage(image, 50, 50);
+};
 
 /* You only have to change the argument string in document.getElementById('floor')
  *
