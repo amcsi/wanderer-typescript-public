@@ -39,7 +39,7 @@ It contains:
 const canvas = document.querySelector('.main-canvas') as HTMLCanvasElement;
 const ctx = canvas.getContext('2d');
 
-// this function will run after the images had been loaded
+// This function runs after the images are loaded
 window.onload = () => {
   // Drawing a floor tile
   const image = document.getElementById('floor') as HTMLImageElement;
