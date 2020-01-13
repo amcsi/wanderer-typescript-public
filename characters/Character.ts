@@ -14,12 +14,9 @@ export class Character {
 
   constructor(imageReference: string) {
     this.imageReference = imageReference;
-    this.posX = 0;
-    this.posY = 0;
     switch (imageReference) {
       case 'hero-down':
         this.image = document.getElementById('hero-down') as HTMLImageElement;
-        this.currentPosition = [[0,0]];
         break;
       case 'hero-up':
         this.image = document.getElementById('hero-up') as HTMLImageElement;
@@ -61,6 +58,11 @@ export class Character {
 
   increaseYPosition(): void{
     this.posY += 1;
+  }
+
+  setImage(ref: string){
+    this.imageReference = ref;
+    this.image = document.getElementById(ref) as HTMLImageElement;
   }
 
   drawCharacter(): void {

@@ -8,21 +8,20 @@ ctx.fillRect(10, 10, 100, 100);
 'use strict';
 import { Map } from '../map/Map';
 import { Character } from '../characters/Character';
+import {Hero} from '../characters/Hero';
 
 // Acquire the rendering context
 const canvas = document.querySelector('.main-canvas') as HTMLCanvasElement;
 export const ctx = canvas.getContext('2d');
 
-
-let theHero = new Character('hero-down');
 let map = new Map(1);
-
+let hero = new Hero('hero-down');
 
 // This function runs after the images are loaded
 window.onload = () => {
-  // Drawing a floor tile &hero's starting position
+  // Drawing a floor tile & hero's starting position
   map.generateMap(1);
-  theHero.drawCharacter();
+  hero.drawCharacter();
 };
 
 // Function to handle the key press events
@@ -31,31 +30,33 @@ function onKeyPress(event: any) {
   let whatHappens;
   switch (event.keyCode) {
     case 37:
-      if (theHero.posX > 0 && !map.getLevelMap()[theHero.posY][theHero.posX - 1]) {
-        whatHappens = theHero.decreaseXPosition();
+      if (hero.posX > 0 && !map.getLevelMap()[hero.posY][hero.posX - 1]) {
+        whatHappens = hero.decreaseXPosition();
+        hero.setImage('hero-left');
       }
       break;
     case 38:
-      if (theHero.posY > 0 && !map.getLevelMap()[theHero.posY - 1][theHero.posX]) {
-        whatHappens = theHero.decreaseYPosition();
+      if (hero.posY > 0 && !map.getLevelMap()[hero.posY - 1][hero.posX]) {
+        whatHappens = hero.decreaseYPosition();
+        hero.setImage('hero-up');
       }
       break;
     case 39:
-      if ((theHero.posX + 1) * 72 < canvas.width && !map.getLevelMap()[theHero.posY][theHero.posX + 1]) {
-        whatHappens = theHero.increaseXPosition();
+      if ((hero.posX + 1) * 72 < canvas.width && !map.getLevelMap()[hero.posY][hero.posX + 1]) {
+        whatHappens = hero.increaseXPosition();
+        hero.setImage('hero-right');
       }
-
       break;
     case 40:
-      if ((theHero.posY + 1) * 72 < canvas.height && !map.getLevelMap()[theHero.posY + 1][theHero.posX]) {
-        whatHappens = theHero.increaseYPosition();
+      if ((hero.posY + 1) * 72 < canvas.height && !map.getLevelMap()[hero.posY + 1][hero.posX]) {
+        whatHappens = hero.increaseYPosition();
+        hero.setImage('hero-down');
       }
-
       break;
   }
   whatHappens;
   map.generateMap(1);
-  theHero.drawCharacter();
+  hero.drawCharacter();
 
 }
 
