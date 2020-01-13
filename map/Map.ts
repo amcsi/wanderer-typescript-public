@@ -16,7 +16,11 @@ export class Map {
     return this.level;
   }
 
-  getLevelMap(level: number) { // 0 == floor, 1 == wall
+  getLevelMap():number[][]{
+    return this.mapMatrix;
+  }
+
+  setLevelMap(level: number) { // 0 == floor, 1 == wall
     switch (level) {
       case 1:
         this.mapMatrix = [
@@ -39,7 +43,7 @@ export class Map {
   }
 
   generateMap(level: number) {
-    this.getLevelMap(level);
+    this.setLevelMap(level);
     for (let j: number = 0; j < this.mapMatrix.length; j++) {
       for (let i: number = 0; i < this.mapMatrix[j].length; i++) {
         if (this.mapMatrix[j][i]) {
