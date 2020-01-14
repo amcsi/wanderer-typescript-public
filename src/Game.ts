@@ -18,19 +18,13 @@ export class Game {
     this.map = new Map(this.level);
     this.characterList = [];
     this.generateStartingPosition();
-  }
+    console.log(5, this.generateCondition(0));
+    console.log(5, this.generateCondition(1));
+    console.log(5, this.generateCondition(2));
+    console.log(5, this.generateCondition(3));
+    console.log(5, this.generateCondition(4));
 
-  /* addNewHero(): void {
-     this.characterList.push(new Hero());
-   }
- 
-   addNewBoss(): void {
-     this.characterList.push(new Boss());
-   }
- 
-   addNewSkeleton(): void {
-     this.characterList.push(new Skeleton());
-   }*/
+  }
 
   getCharacterList(): Character[] {
     return this.characterList;
@@ -40,40 +34,28 @@ export class Game {
     return this.level;
   }
 
-
-
   generateStartingPosition(numberOfCharactersToGenerate: number = 5): void {
     for (let i: number = 0; i < numberOfCharactersToGenerate; i++) {
-      
       if (i === 0) {
         this.characterList.push(new Hero());
       }
       else if (i === 1) {
         this.generateRandomPosition();
-        if ((this.xRandom === 0 && this.yRandom === 0) || (this.map.getLevelMap()[this.yRandom][this.xRandom] === 1)) {
-          while ((this.xRandom === 0 && this.yRandom === 0) || (this.map.getLevelMap()[this.yRandom][this.xRandom] === 1)) {
+        let condition = this.generateCondition(i);
+        if (condition) {
+          while (condition) {
             this.generateRandomPosition();
           }
-          let newBoss: Character = new Boss(this.xRandom, this.yRandom);
-          this.characterList.push(newBoss);
+          this.characterList.push(new Boss(this.xRandom, this.yRandom));
         } else {
-          let newBoss: Character = new Boss(this.xRandom, this.yRandom);
-          this.characterList.push(newBoss);
-         // this.characterList.push(new Boss(this.xRandom, this.yRandom));
-        }
-      }
-      else {
-        console.log(i);
-        this.generateRandomPosition();
-        console.log(this.characterList[i-1]);
-        if ((this.xRandom === this.characterList[i - 1].getXPosition() && this.yRandom === this.characterList[i - 1].getYPosition()) || (this.map.getLevelMap()[this.yRandom][this.xRandom] === 1)) {
-          while ((this.xRandom === this.characterList[i - 1].getXPosition() && this.yRandom === this.characterList[i - 1].getYPosition()) || (this.map.getLevelMap()[this.yRandom][this.xRandom] === 1)) {
-            this.generateRandomPosition();
-
+          this.generateRandomPosition();
+          let condition = this.generateCondition(i);
+          if (condition) {
+            while (condition) {
+              this.generateRandomPosition();
+            }
+            this.characterList.push(new Skeleton(this.xRandom, this.yRandom));
           }
-          this.characterList.push(new Skeleton(this.xRandom, this.yRandom));
-        } else {
-          this.characterList.push(new Skeleton(this.xRandom, this.yRandom));
         }
       }
     }
@@ -84,7 +66,18 @@ export class Game {
     this.yRandom = Math.floor(Math.random() * 10);
   }
 
- /* generateStartingPosition(numberOfCharactersToGenerate: number = 5): void {
+  generateCondition(i: number): boolean {
+    function counter(i: number): boolean {
+      if (i === 1) {
+        return (this.map.getLevelMap()[this.yRandom][this.xRandom] === 1);
+      } else {
+        return this.xRandom === this.characterList[i - 1].getXPosition() && this.yRandom === this.characterList[i - 1].getYPosition() || this.generateCondition(i - 1);
+      }
+    }
+    return counter(i);
+  }
+
+  /*generateStartingPosition(numberOfCharactersToGenerate: number = 5): void {
     for (let i: number = 0; i < numberOfCharactersToGenerate; i++) {
       
       if (i === 0) {

@@ -7,6 +7,9 @@ export class Hero extends Character {
     super(imageReference);
     this.posX = 0;
     this.posY = 0;
+    this.hp = 20 + 6 * this.d6();
+    this.dp = 2 + this.d6();
+    this.sp = 5 + this.d6();
   }
 
 }

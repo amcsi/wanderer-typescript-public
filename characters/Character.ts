@@ -6,6 +6,7 @@ import { Boss } from './Boss';
 import { Skeleton } from './Skeleton';
 
 export class Character {
+  level: number;
   image: HTMLImageElement;
   imageReference: string;
   posX: number;
@@ -15,6 +16,7 @@ export class Character {
   sp: number;
 
   constructor(imageReference: string, posX: number = 0, posY: number = 0) {
+    this.level = 1;
     this.posX = posX;
     this.posY = posY;
     this.imageReference = imageReference;
@@ -71,6 +73,23 @@ export class Character {
 
   drawCharacter(): void {
     ctx.drawImage(this.image, this.posX * 72, this.posY * 72);
+  }
+
+  getHp(): number {
+    return this.hp;
+  }
+  getDp(): number {
+    return this.dp;
+  }
+  getSp(): number {
+    return this.sp;
+  }
+  getLevel(){
+    return this.level;
+  }
+
+  d6(): number {
+    return Math.floor(Math.random() * 7);
   }
 
 }
