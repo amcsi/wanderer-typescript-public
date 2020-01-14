@@ -1,18 +1,22 @@
 'use strict';
 import { ctx } from '../src/index';
+import { Map } from '../map/Map';
+import { Hero } from './Hero';
+import { Boss } from './Boss';
+import { Skeleton } from './Skeleton';
 
 export class Character {
   image: HTMLImageElement;
   imageReference: string;
   posX: number;
   posY: number;
-  currentPosition: number[][];
   hp: number;
   dp: number;
   sp: number;
 
-
-  constructor(imageReference: string) {
+  constructor(imageReference: string, posX: number = 0, posY: number = 0) {
+    this.posX = posX;
+    this.posY = posY;
     this.imageReference = imageReference;
     switch (imageReference) {
       case 'hero-down':
@@ -44,29 +48,29 @@ export class Character {
     return this.posY;
   }
 
-  decreaseXPosition(): void{
+  decreaseXPosition(): void {
     this.posX -= 1;
   }
 
-  increaseXPosition(): void{
+  increaseXPosition(): void {
     this.posX += 1;
   }
 
-  decreaseYPosition(): void{
+  decreaseYPosition(): void {
     this.posY -= 1;
   }
 
-  increaseYPosition(): void{
+  increaseYPosition(): void {
     this.posY += 1;
   }
 
-  setImage(ref: string){
+  setImage(ref: string) {
     this.imageReference = ref;
     this.image = document.getElementById(ref) as HTMLImageElement;
   }
 
   drawCharacter(): void {
-    ctx.drawImage(this.image, this.posX*72, this.posY*72);
+    ctx.drawImage(this.image, this.posX * 72, this.posY * 72);
   }
 
 }

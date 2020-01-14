@@ -16,7 +16,7 @@ export class Map {
     return this.level;
   }
 
-  getLevelMap():number[][]{
+  getLevelMap(): number[][] {
     return this.mapMatrix;
   }
 
@@ -37,10 +37,25 @@ export class Map {
         ];
         break;
       case 2:
+        this.mapMatrix = [
+          [0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
+          [0, 0, 1, 1, 0, 1, 0, 1, 1, 0],
+          [0, 1, 1, 1, 0, 1, 0, 1, 1, 0],
+          [0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+          [1, 1, 1, 1, 0, 1, 1, 1, 1, 0],
+          [0, 1, 0, 1, 0, 0, 0, 0, 0, 0],
+          [0, 1, 0, 1, 0, 1, 1, 0, 1, 0],
+          [0, 0, 0, 0, 0, 1, 1, 0, 1, 0],
+          [0, 1, 1, 1, 0, 0, 0, 0, 1, 0],
+          [0, 0, 0, 1, 0, 1, 1, 0, 0, 0]
+        ];
+        break;
+      case 3:
         //valamilyentérkép
         break;
     }
   }
+
 
   generateMap(level: number) {
     this.setLevelMap(level);
