@@ -49,6 +49,13 @@ export class Character {
   getYPosition(): number {
     return this.posY;
   }
+  setXPosition(pos: number): void {
+    this.posX = pos;
+  }
+
+  setYPosition(pos: number): void {
+    this.posY = pos;
+  }
 
   decreaseXPosition(): void {
     this.posX -= 1;
@@ -84,7 +91,7 @@ export class Character {
   getSp(): number {
     return this.sp;
   }
-  getLevel(){
+  getLevel() {
     return this.level;
   }
 

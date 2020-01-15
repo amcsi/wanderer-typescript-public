@@ -16,14 +16,9 @@ export class Game {
   constructor() {
     this.level = 1;
     this.map = new Map(this.level);
+    this.map.generateMap(this.level);
     this.characterList = [];
-    this.generateStartingPosition();
-    console.log(5, this.generateCondition(0));
-    console.log(5, this.generateCondition(1));
-    console.log(5, this.generateCondition(2));
-    console.log(5, this.generateCondition(3));
-    console.log(5, this.generateCondition(4));
-
+    this.generateAllCharacterStartingPosition();
   }
 
   getCharacterList(): Character[] {
@@ -34,29 +29,37 @@ export class Game {
     return this.level;
   }
 
-  generateStartingPosition(numberOfCharactersToGenerate: number = 5): void {
+  generateAllCharacterStartingPosition(numberOfCharactersToGenerate: number = 5): void {
     for (let i: number = 0; i < numberOfCharactersToGenerate; i++) {
       if (i === 0) {
         this.characterList.push(new Hero());
       }
       else if (i === 1) {
         this.generateRandomPosition();
-        let condition = this.generateCondition(i);
-        if (condition) {
-          while (condition) {
-            this.generateRandomPosition();
-          }
-          this.characterList.push(new Boss(this.xRandom, this.yRandom));
-        } else {
+        while (this.xRandom === this.characterList[0].getXPosition() && this.yRandom === this.characterList[0].getYPosition() || this.map.getLevelMap()[this.yRandom][this.xRandom] === 1) {
           this.generateRandomPosition();
-          let condition = this.generateCondition(i);
-          if (condition) {
-            while (condition) {
-              this.generateRandomPosition();
-            }
-            this.characterList.push(new Skeleton(this.xRandom, this.yRandom));
-          }
         }
+        this.characterList.push(new Boss(this.xRandom, this.yRandom));
+      } else if (i === 2) {
+        this.generateRandomPosition();
+        while (this.xRandom === this.characterList[0].getXPosition() && this.yRandom === this.characterList[0].getYPosition() || this.map.getLevelMap()[this.yRandom][this.xRandom] === 1 || this.xRandom === this.characterList[1].getXPosition() && this.yRandom === this.characterList[1].getYPosition()) {
+          this.generateRandomPosition();
+        }
+        this.characterList.push(new Skeleton(this.xRandom, this.yRandom, true)); // giving the first skeleton the key
+      }
+      else if (i === 3) {
+        this.generateRandomPosition();
+        while (this.xRandom === this.characterList[0].getXPosition() && this.yRandom === this.characterList[0].getYPosition() || this.map.getLevelMap()[this.yRandom][this.xRandom] === 1 || this.xRandom === this.characterList[1].getXPosition() && this.yRandom === this.characterList[1].getYPosition() || this.xRandom === this.characterList[2].getXPosition() && this.yRandom === this.characterList[2].getYPosition()) {
+          this.generateRandomPosition();
+        }
+        this.characterList.push(new Skeleton(this.xRandom, this.yRandom));
+      }
+      else if (i === 4) {
+        this.generateRandomPosition();
+        while (this.xRandom === this.characterList[0].getXPosition() && this.yRandom === this.characterList[0].getYPosition() || this.map.getLevelMap()[this.yRandom][this.xRandom] === 1 || this.xRandom === this.characterList[1].getXPosition() && this.yRandom === this.characterList[1].getYPosition() || this.xRandom === this.characterList[2].getXPosition() && this.yRandom === this.characterList[2].getYPosition() || this.xRandom === this.characterList[3].getXPosition() && this.yRandom === this.characterList[3].getYPosition()) {
+          this.generateRandomPosition();
+        }
+        this.characterList.push(new Skeleton(this.xRandom, this.yRandom));
       }
     }
   }
@@ -66,52 +69,43 @@ export class Game {
     this.yRandom = Math.floor(Math.random() * 10);
   }
 
-  generateCondition(i: number): boolean {
-    function counter(i: number): boolean {
-      if (i === 1) {
-        return (this.map.getLevelMap()[this.yRandom][this.xRandom] === 1);
-      } else {
-        return this.xRandom === this.characterList[i - 1].getXPosition() && this.yRandom === this.characterList[i - 1].getYPosition() || this.generateCondition(i - 1);
+ moveToRandomPosition() {
+    for (let i: number = 1; i < this.characterList.length; i++) {
+      let x = this.characterList[i].getXPosition();
+      let y = this.characterList[i].getYPosition();
+      console.log('current tiles', x , y);
+
+      let availableTiles: number[][] = [];
+      let tilesToCheckBase: number[][] = [[x - 1, y], [x + 1, y], [x, y - 1], [x, y + 1]];
+      let tilesToChek: number[][] = [];
+      console.log('sorrounding tiles', tilesToCheckBase);
+
+      for (let j: number = 0; j < tilesToCheckBase.length; j++) {
+        console.log(tilesToCheckBase[j][0]);
+        console.log(tilesToCheckBase[j][1]);
+        console.log('wall check', this.map.getLevelMap()[tilesToCheckBase[j][1]][tilesToCheckBase[j][0]]);
+        console.log('wall check2',!(this.map.getLevelMap()[tilesToCheckBase[j][1]][tilesToCheckBase[j][0]]));
+        console.log('FUTOK');
+        if (!(this.map.getLevelMap()[tilesToCheckBase[j][1]][tilesToCheckBase[j][0]]) && tilesToCheckBase[j][0] > 0 && tilesToCheckBase[j][0] < 9 && tilesToCheckBase[j][1] > 0 && tilesToCheckBase[j][1] < 9) {
+          tilesToChek.push(tilesToCheckBase[j]);
+        }
       }
+      console.log('filtered tiles to check', tilesToChek);
+      for (let k: number = i + 1; k < this.characterList.length; k++) {
+        let xOther: number = this.characterList[k].getXPosition();
+        let yOther: number = this.characterList[k].getXPosition();
+        console.log('xOther,yOther', xOther,yOther);
+        for (let m: number = 0; m < tilesToChek.length; m++) {
+          if (xOther !== tilesToChek[m][0] && yOther !== tilesToChek[m][1]) {
+            availableTiles.push(tilesToChek[m]);
+          }
+        }
+      }
+      console.log('available tiles', availableTiles);
+      let randomlyChosenTile: number[] = availableTiles[Math.floor(Math.random() * availableTiles.length + 1)];
+      console.log('randomly chosen file', randomlyChosenTile);
+      this.characterList[i].setXPosition(randomlyChosenTile[0]);
+      this.characterList[i].setYPosition(randomlyChosenTile[1]);
     }
-    return counter(i);
   }
-
-  /*generateStartingPosition(numberOfCharactersToGenerate: number = 5): void {
-    for (let i: number = 0; i < numberOfCharactersToGenerate; i++) {
-      
-      if (i === 0) {
-        this.characterList.push(new Hero());
-      }
-      else if (i === 1) {
-        this.generateRandomPosition();
-        if ((this.xRandom === 0 && this.yRandom === 0) || (this.map.getLevelMap()[this.yRandom][this.xRandom] === 1)) {
-          while ((this.xRandom === 0 && this.yRandom === 0) || (this.map.getLevelMap()[this.yRandom][this.xRandom] === 1)) {
-            this.generateRandomPosition();
-          }
-          let newBoss: Character = new Boss(this.xRandom, this.yRandom);
-          this.characterList.push(newBoss);
-        } else {
-          let newBoss: Character = new Boss(this.xRandom, this.yRandom);
-          this.characterList.push(newBoss);
-         // this.characterList.push(new Boss(this.xRandom, this.yRandom));
-        }
-      }
-      else {
-        console.log(i);
-        this.generateRandomPosition();
-        console.log(this.characterList[i-1]);
-        if ((this.xRandom === this.characterList[i - 1].getXPosition() && this.yRandom === this.characterList[i - 1].getYPosition()) || (this.map.getLevelMap()[this.yRandom][this.xRandom] === 1)) {
-          while ((this.xRandom === this.characterList[i - 1].getXPosition() && this.yRandom === this.characterList[i - 1].getYPosition()) || (this.map.getLevelMap()[this.yRandom][this.xRandom] === 1)) {
-            this.generateRandomPosition();
-
-          }
-          this.characterList.push(new Skeleton(this.xRandom, this.yRandom));
-        } else {
-          this.characterList.push(new Skeleton(this.xRandom, this.yRandom));
-        }
-      }
-    }
-  }*/
-
 }

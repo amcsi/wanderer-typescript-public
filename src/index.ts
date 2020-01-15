@@ -6,6 +6,7 @@ export const ctx = canvas.getContext('2d');
 
 let game = new Game();
 let hero = game.characterList[0];
+let heroMoveCounter: number = 0;
 
 // This function runs after the images are loaded
 window.onload = () => {
@@ -14,6 +15,7 @@ window.onload = () => {
 };
 
 // Function to handle the key press events
+
 function onKeyPress(event: any) {
   let whatHappens;
   switch (event.keyCode) {
@@ -44,8 +46,12 @@ function onKeyPress(event: any) {
   }
   whatHappens;
   game.map.generateMap(game.getLevel());
-  hero.drawCharacter();
-
+ heroMoveCounter++;
+  if (heroMoveCounter === 2) {
+    game.moveToRandomPosition();
+    heroMoveCounter = 0;
+  }
+  game.characterList.forEach(character => character.drawCharacter());
 }
 
 // Listen on pressing the keys

@@ -9,7 +9,7 @@ export class Map {
 
   constructor(level: number) {
     this.level = level;
-    this.generateMap(level);
+    this.setLevelMap(level);
   }
 
   getLevelNumber(): number {
